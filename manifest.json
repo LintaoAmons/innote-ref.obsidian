@@ -1,10 +1,10 @@
 {
-  "id": "obsidian-footnotes",
-  "name": "Footnote Shortcut",
-  "version": "0.0.9",
+  "id": "innote-ref-obsidian",
+  "name": "In-Note Ref",
+  "version": "0.0.1",
   "minAppVersion": "0.12.0",
-  "description": "Insert and write footnotes faster",
-  "author": "Alexis Rondeau, Micha Brugger",
-  "authorUrl": "https://publish.obsidian.md/alexisrondeau",
+  "description": "Link pieces inside note",
+  "author": "Alexis Rondeau, Micha Brugger, Lintao",
+  "authorUrl": "",
   "isDesktopOnly": false
 }
