@@ -1,11 +1,14 @@
-import {Editor, MarkdownView, Plugin} from "obsidian";
+import {MarkdownView, Plugin} from "obsidian";
 
 export default class MyPlugin extends Plugin {
-    private refPattern = /==REF-\d+==/;
+    private refPattern = /==\d+-REF==/
+    private lineWithRefPattern = /(.*)(==\d+-REF==).*/;
+    private mdView = this.app.workspace.getActiveViewOfType(MarkdownView)
+    private editor = this.app.workspace.getActiveViewOfType(MarkdownView).editor;
 
     async onload() {
         this.addCommand({
-            id: "insert-or-jump",
+            id: "insert-or-jump-to-next",
             name: "Insert or Jump to next ref",
             checkCallback: (checking: boolean) => {
                 if (checking)
@@ -13,60 +16,97 @@ export default class MyPlugin extends Plugin {
                 this.insertOrJump();
             },
         });
+        this.addCommand({
+            id: "jump to preview",
+            name: "Jump to previews",
+            checkCallback: (checking: boolean) => {
+                if (checking)
+                    return !!this.app.workspace.getActiveViewOfType(MarkdownView);
+                this.jumpPreview();
+            }
+        })
     }
 
     private insertOrJump() {
-        const mdView = this.app.workspace.getActiveViewOfType(MarkdownView);
-
-        if (!mdView) return false;
-        if (mdView.editor == undefined) return false;
-
-        const doc = mdView.editor;
-        const cursorPosition = doc.getCursor(); // 光标现在的位置
-        const lineText = doc.getLine(cursorPosition.line); // 这一行的文本
-        // const markdownText = mdView.data; // markdown 所有的文本
-
-        if (this.hasRefInCurrentLine(lineText)) {
-            this.jumpToNextRef(lineText, doc)
+        if (this.hasRefInCurrentLine()) {
+            this.jumpToNextRef()
         } else {
-            this.createRef(lineText, doc)
+            this.insertInPlace()
         }
-
     }
 
-    private hasRefInCurrentLine(lineText: string): boolean {
-        const match = lineText.match(this.refPattern);
-        return match !== null;
+    private insertInPlace() {
+        const cursorPosition = this.editor.getCursor();
+        const lineText = this.editor.getLine(cursorPosition.line);
+        const {linePart1, linePart2} = this.splitLineByCursor()
+        const currentNumber = this.countCurrentNumber()
+        const newLine = `${linePart1} ==${currentNumber}-REF== ${linePart2}`;
+
+        this.editor.replaceRange(
+            newLine,
+            {line: cursorPosition.line, ch: 0},
+            {line: cursorPosition.line, ch: lineText.length}
+        );
+        this.editor.setCursor(cursorPosition);
     }
 
-    private jumpToNextRef(lineText: string, doc: Editor) {
-        const match = lineText.match(this.refPattern);
-        const currentRef = match[0]
-        const nextLineNumber = doc.getCursor().line + 1;
-        for (let i = nextLineNumber; i < doc.lineCount(); i++) {
-            const theLine = doc.getLine(i);
+    private jumpToNextRef() {
+        const currentRef = this.getCurrentLineRef()
+        const nextLineNumber = this.editor.getCursor().line + 1;
+        for (let i = nextLineNumber; i < this.editor.lineCount(); i++) {
+            const theLine = this.editor.getLine(i);
             if (theLine.match(currentRef)) {
-                doc.setCursor({line: i, ch: 0});
+                const linePartBeforeRef = theLine.match(this.lineWithRefPattern)[1]
+                this.editor.setCursor({line: i, ch: linePartBeforeRef.length + 1});
                 return;
             }
         }
         return;
     }
 
-    private createRef(
-        lineText: string,
-        doc: Editor,
-    ) {
-        const cursorPosition = doc.getCursor()
-        let footnoteMarker = `==REF-1==`;
-        let linePart1 = lineText.substr(0, cursorPosition.ch);
-        let linePart2 = lineText.substr(cursorPosition.ch);
-        let newLine = linePart1 + footnoteMarker + linePart2;
+    private jumpPreview() {
+        const currentRef = this.getCurrentLineRef()
+        const prevLineNumber = this.editor.getCursor().line - 1;
+        for (let i = prevLineNumber; i > 0; i--) {
+            const theLine = this.editor.getLine(i);
+            if (theLine.match(currentRef)) {
+                const linePartBeforeRef = theLine.match(this.lineWithRefPattern)[1]
+                this.editor.setCursor({line: i, ch: linePartBeforeRef.length + 1});
+                return;
+            }
+        }
+        return;
+    }
 
-        doc.replaceRange(
-            newLine,
-            {line: cursorPosition.line, ch: 0},
-            {line: cursorPosition.line, ch: lineText.length}
-        );
+    private getCurrentLineRef() {
+        const lineText = this.getCurrentLine();
+        const match = lineText.match(this.lineWithRefPattern);
+        return match[2]
+    }
+
+    private splitLineByCursor() {
+        const cursorPosition = this.editor.getCursor();
+        const lineText = this.editor.getLine(cursorPosition.line);
+        const linePart1 = lineText.substring(0, cursorPosition.ch);
+        const linePart2 = lineText.substring(cursorPosition.ch);
+        return {linePart1, linePart2}
+    }
+
+    private countCurrentNumber() {
+        const markdownText = this.mdView.data;
+        const match = markdownText.match(/==\d+-REF==/g)
+        const numbers = match.map(it => Number(it.substring(2, 3)));
+        return Math.max(...numbers)
+    }
+
+    private hasRefInCurrentLine(): boolean {
+        const lineText = this.getCurrentLine()
+        const match = lineText.match(this.lineWithRefPattern);
+        return match !== null;
+    }
+
+    private getCurrentLine() {
+        const cursorPosition = this.editor.getCursor(); // 光标现在的位置
+        return this.editor.getLine(cursorPosition.line); // 这一行的文本
     }
 }
