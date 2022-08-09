@@ -1,7 +1,6 @@
 import {MarkdownView, Plugin} from "obsidian";
 
 export default class MyPlugin extends Plugin {
-    private refPattern = /==\d+-REF==/
     private lineWithRefPattern = /(.*)(==\d+-REF==).*/;
     private mdView = this.app.workspace.getActiveViewOfType(MarkdownView)
     private editor = this.app.workspace.getActiveViewOfType(MarkdownView).editor;
@@ -95,8 +94,11 @@ export default class MyPlugin extends Plugin {
     private countCurrentNumber() {
         const markdownText = this.mdView.data;
         const match = markdownText.match(/==\d+-REF==/g)
+        if (match === null) {
+            return 1
+        }
         const numbers = match.map(it => Number(it.substring(2, 3)));
-        return Math.max(...numbers)
+        return Math.max(...numbers);
     }
 
     private hasRefInCurrentLine(): boolean {
