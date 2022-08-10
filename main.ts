@@ -35,18 +35,34 @@ export default class MyPlugin extends Plugin {
     }
 
     private insertInPlace() {
+        const currentPosition = this.editor.getCursor()
+        const newLine = this.generateNewLine()
+        this.replaceCurrentLine(newLine)
+        this.editor.setCursor(currentPosition);
+    }
+
+    private replaceCurrentLine(newLine: string) {
         const cursorPosition = this.editor.getCursor();
         const lineText = this.editor.getLine(cursorPosition.line);
-        const {linePart1, linePart2} = this.splitLineByCursor()
-        const currentNumber = this.countCurrentNumber()
-        const newLine = `${linePart1} ==${currentNumber}-REF== ${linePart2}`;
-
         this.editor.replaceRange(
             newLine,
             {line: cursorPosition.line, ch: 0},
             {line: cursorPosition.line, ch: lineText.length}
         );
-        this.editor.setCursor(cursorPosition);
+    }
+
+    private generateNewLine() {
+        const {linePart1, linePart2} = this.splitLineByCursor()
+        const currentNumber = this.countCurrentNumber()
+        if (linePart1.length === 0 && linePart2.length === 0) {
+            return `==${currentNumber}-REF==`
+        } else if (linePart1.length === 0 && linePart2.length > 0) {
+            return `==${currentNumber}-REF== ${linePart2}`
+        } else if (linePart1.length > 0 && linePart2.length <= 1) {
+            return `${linePart1}${linePart2} ==${currentNumber}-REF==`
+        } else {
+            return `${linePart1} ==${currentNumber}-REF== ${linePart2}`
+        }
     }
 
     private jumpToNextRef() {
