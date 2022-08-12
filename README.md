@@ -1,9 +1,13 @@
-# Obsidian In-Note Ref
+## Obsidian In-Note Ref
 > Thanks to [obsidian-footnote](https://github.com/MichaBrugger/obsidian-footnotes)
 > I learned a lot from their codes
 
-# Why this plugin
+## Why this plugin
 
 I want to put the In-note ref anywhere inside the note.
 
 And I can jump around by those REF
+
+## More
+
+More info can be found in https://oatnil.top/docs/InNoteRef-Obsidian
