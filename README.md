@@ -38,4 +38,5 @@ See https://oatnil.top/docs/InNoteRef-Obsidian
 
 ## Todo
 
+- [ ] Add `code block` recognisation, and insert ref as comment into code line end. 
 - [x] Maybe `Insert or Jump to next ref` ---> `Insert at line end OR Jump to next ref`
