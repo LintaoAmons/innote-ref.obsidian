@@ -10,7 +10,7 @@ export default class MyPlugin extends Plugin {
   async onload() {
     this.addCommand({
       id: "insert-or-jump-to-next",
-      name: "Insert or Jump to next ref",
+      name: "Insert or Jump",
       checkCallback: (checking: boolean) => {
         if (checking)
           return !!this.app.workspace.getActiveViewOfType(MarkdownView);

@@ -10,16 +10,21 @@
 
 ## Commands
 
-There're only two commands of this plugin
+There're three commands of this plugin
 
-### Insert or Jump to next ref
+### Insert or Jump 
 
-If there's no `REF` in current line, then create a new `REF` under cursor.
+If there's no `REF` in current line, then insert a new `REF` at the line end.
 Else jump to next `REF`.
 
 ### Jump to previews
 
 Jump to previes `REF`.
+
+### Insert in place or Jump
+
+If there's no `REF` in current line, then insert a new `REF` under the cursor's current position.
+Else jump to next `REF`.
 
 ## Why this plugin
 
@@ -33,4 +38,4 @@ See https://oatnil.top/docs/InNoteRef-Obsidian
 
 ## Todo
 
-- [ ] Maybe `Insert or Jump to next ref` ---> `Insert at line end OR Jump to next ref`
+- [x] Maybe `Insert or Jump to next ref` ---> `Insert at line end OR Jump to next ref`
