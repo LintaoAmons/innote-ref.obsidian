@@ -37,6 +37,7 @@ Else jump to next `REF`.
 
 ## Todo
 
+- [ ] Change the REFs to more bueatiful ⓵ ⓶ ⓷ ...
 - [ ] Add `code block` recognisation, and insert ref as comment into code line end. 
 - [x] Maybe `Insert or Jump to next ref` ---> `Insert at line end OR Jump to next ref`
 
