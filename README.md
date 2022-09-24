@@ -33,7 +33,9 @@ Else jump to next `REF`.
 ## Usecase and More
 > https://oatnil.top/docs/InNoteRef-Obsidian
 
-- [WaitGroup - Go](./usecases/WaitGroup - Go.md)
+- [WaitGroup - Go](https://github.com/LintaoAmons/innote-ref.obsidian/blob/release/usecases/WaitGroup%20-%20Go.md)
+  - ![image](https://user-images.githubusercontent.com/95092244/192092324-6c13eb1b-a8c6-4c15-902b-af2a1d5c495d.png)
+
 
 ## Todo
 
