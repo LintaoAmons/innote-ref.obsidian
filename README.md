@@ -1,6 +1,10 @@
 ## Obsidian In-Note Ref
-> Thanks to [obsidian-footnote](https://github.com/MichaBrugger/obsidian-footnotes)
-> I learned a lot from their codes
+
+## Why this plugin
+
+I want to put the In-note ref anywhere and multiple times inside the note.
+
+And I can jump around by those REF
 
 ## Advantage
 
@@ -26,17 +30,15 @@ Jump to previes `REF`.
 If there's no `REF` in current line, then insert a new `REF` under the cursor's current position.
 Else jump to next `REF`.
 
-## Why this plugin
-
-I want to put the In-note ref anywhere inside the note.
-
-And I can jump around by those REF
-
 ## Usecase and More
+> https://oatnil.top/docs/InNoteRef-Obsidian
 
-See https://oatnil.top/docs/InNoteRef-Obsidian
+- [WaitGroup - Go](./usecases/WaitGroup - Go.md)
 
 ## Todo
 
 - [ ] Add `code block` recognisation, and insert ref as comment into code line end. 
 - [x] Maybe `Insert or Jump to next ref` ---> `Insert at line end OR Jump to next ref`
+
+> Thanks to [obsidian-footnote](https://github.com/MichaBrugger/obsidian-footnotes)
+> I learned a lot from their codes
