@@ -1,5 +1,3 @@
-## Obsidian In-Note Ref
-
 ## Why this plugin
 
 I want to put the In-note ref anywhere and multiple times inside the note.
