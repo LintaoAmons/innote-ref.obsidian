@@ -4,7 +4,13 @@
 
 I want to put the In-note ref anywhere and multiple times inside the note.
 
-And I can jump around by those REF
+And I can jump around by those REFs
+
+## Usecase and More
+> https://oatnil.top/docs/InNoteRef-Obsidian
+
+- [WaitGroup - Go](https://github.com/LintaoAmons/innote-ref.obsidian/blob/release/usecases/WaitGroup%20-%20Go.md)
+  - ![image](https://user-images.githubusercontent.com/95092244/192092324-6c13eb1b-a8c6-4c15-902b-af2a1d5c495d.png)
 
 ## Advantage
 
@@ -29,12 +35,6 @@ Jump to previes `REF`.
 
 If there's no `REF` in current line, then insert a new `REF` under the cursor's current position.
 Else jump to next `REF`.
-
-## Usecase and More
-> https://oatnil.top/docs/InNoteRef-Obsidian
-
-- [WaitGroup - Go](https://github.com/LintaoAmons/innote-ref.obsidian/blob/release/usecases/WaitGroup%20-%20Go.md)
-  - ![image](https://user-images.githubusercontent.com/95092244/192092324-6c13eb1b-a8c6-4c15-902b-af2a1d5c495d.png)
 
 
 ## Todo
